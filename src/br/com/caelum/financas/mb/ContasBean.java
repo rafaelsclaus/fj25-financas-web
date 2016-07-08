@@ -2,10 +2,14 @@ package br.com.caelum.financas.mb;
 
 import java.io.Serializable;
 import java.util.List;
-import br.com.caelum.financas.modelo.Conta;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Persistence;
+
+import br.com.caelum.financas.dao.ContaDao;
+import br.com.caelum.financas.modelo.Conta;
 
 @Named
 @ViewScoped
@@ -13,6 +17,8 @@ public class ContasBean implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
+    @Inject
+    private ContaDao contaDao;
 	private Conta conta = new Conta();
 	private List<Conta> contas;
 
@@ -25,6 +31,9 @@ public class ContasBean implements Serializable {
 	}
 
 	public void grava() {
+		
+		contaDao.adiciona(conta);
+		this.contas = contaDao.lista();
 		System.out.println("Gravando a conta");
 
 		limpaFormularioDoJSF();
@@ -33,12 +42,17 @@ public class ContasBean implements Serializable {
 	public List<Conta> getContas() {
 		System.out.println("Listando as contas");
 
-		return contas;
+		if (this.contas == null) {
+			this.contas = contaDao.lista();
+		}
+		return this.contas;
 	}
 
 	public void remove() {
 		System.out.println("Removendo a conta");
-
+		
+		contaDao.remove(this.conta);
+		this.contas = contaDao.lista();
 		limpaFormularioDoJSF();
 	}
 
