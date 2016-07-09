@@ -14,8 +14,6 @@ public class ContaDao {
 	@PersistenceContext
 	EntityManager manager;
 
-	
-	
 	public void adiciona(Conta conta) {
 		this.manager.persist(conta);
 	}
@@ -35,7 +33,3 @@ public class ContaDao {
 	}
 
 }
-
-
-
-

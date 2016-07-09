@@ -11,7 +11,7 @@ import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 
 
-@Startup
+//@Startup
 @Singleton
 public class Agendador {
 
