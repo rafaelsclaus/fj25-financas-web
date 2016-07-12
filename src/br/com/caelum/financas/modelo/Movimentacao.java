@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Movimentacao implements Serializable {
@@ -21,6 +23,8 @@ public class Movimentacao implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
+	
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar data;
 	private BigDecimal valor;
 	
