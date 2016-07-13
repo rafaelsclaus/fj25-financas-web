@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.BatchSize;
+
 @Entity
 public class Movimentacao implements Serializable {
  
@@ -37,6 +39,7 @@ public class Movimentacao implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipoMovimentacao;
 	
+	@BatchSize(size=3)
 	@ManyToMany
 	private List<Categoria> categorias = new ArrayList<Categoria>();
 	
