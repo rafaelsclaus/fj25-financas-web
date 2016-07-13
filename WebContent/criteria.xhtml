@@ -61,6 +61,7 @@
 			
 	        <h3><h:outputText value="Total movimentado do Titular" /></h3>
 			<h:form>
+				<h:outputText value="Nome do Titular: " />
 				<h:inputText value="#{criteriaBean.titular}" />
 				<h:commandButton value="Somar" action="#{criteriaBean.somaMovimentacoesDoTitular}"/>
 			</h:form>

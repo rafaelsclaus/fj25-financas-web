@@ -8,6 +8,9 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import br.com.caelum.financas.exception.ValorInvalidoException;
 import br.com.caelum.financas.modelo.Conta;
@@ -22,6 +25,32 @@ public class MovimentacaoDao {
 	// @PersistenceContext
 	EntityManager manager;
 
+	public BigDecimal somaMovimentacoesDoTitular(String titular){
+		
+		CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+		CriteriaQuery<BigDecimal> criteria = builder.createQuery(BigDecimal.class);
+		
+		Root<Movimentacao> rootRegra = criteria.from(Movimentacao.class);
+		
+		criteria.select(builder.sum(rootRegra.<BigDecimal>get("valor")));
+		
+		criteria.where(
+				builder.like(
+						rootRegra.<Conta>get("conta").<String>get("titular"),
+						"%" + titular + "%"));
+		
+		return this.manager.createQuery(criteria).getSingleResult();
+	}
+	
+	public List<Movimentacao> listaTodasComCriteria(){
+		CriteriaBuilder builder = this.manager.getCriteriaBuilder();
+		
+		CriteriaQuery<Movimentacao> criteria = builder.createQuery(Movimentacao.class);
+		criteria.from(Movimentacao.class);
+		
+		return this.manager.createQuery(criteria).getResultList();
+	}
+	
 	public void adiciona(Movimentacao movimentacao) {
 		manager.joinTransaction();
 		this.manager.persist(movimentacao);
