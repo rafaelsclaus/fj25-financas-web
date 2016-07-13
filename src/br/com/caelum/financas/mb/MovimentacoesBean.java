@@ -21,19 +21,19 @@ import br.com.caelum.financas.modelo.TipoMovimentacao;
 public class MovimentacoesBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Movimentacao> movimentacoes;
 	private Movimentacao movimentacao = new Movimentacao();
 	private Integer contaId;
 	private Integer categoriaId;
 	private List<Categoria> categorias;
-	
+
 	public List<Categoria> getCategorias() {
-		if (this.categorias == null ) {
+		if (this.categorias == null) {
 			System.out.println("Listando as categorias");
 			this.categorias = this.categoriaDao.lista();
 		}
-		
+
 		return this.categorias;
 	}
 
@@ -41,36 +41,33 @@ public class MovimentacoesBean implements Serializable {
 		this.categorias = categorias;
 	}
 
-	
 	@Inject
 	private ContaDao contaDao;
-	
+
 	@Inject
 	private MovimentacaoDao movimentacaoDao;
-	
+
 	@Inject
 	private CategoriaDao categoriaDao;
-	
-	public void adicionaCategoria(){
-		if (this.categoriaId != null && this.categoriaId  > 0) {
-			Categoria  categoria = categoriaDao.procura(this.categoriaId);
+
+	public void adicionaCategoria() {
+		if (this.categoriaId != null && this.categoriaId > 0) {
+			Categoria categoria = categoriaDao.procura(this.categoriaId);
 			this.movimentacao.getCategorias().add(categoria);
 		}
 	}
-	
 
-	
 	public void grava() {
 		System.out.println("Fazendo a gravacao da movimentacao");
-		
+
 		Conta contaRelacionada = contaDao.busca(contaId);
 		movimentacao.setConta(contaRelacionada);
-		
+
 		movimentacaoDao.adiciona(movimentacao);
-		this.movimentacoes = this.movimentacaoDao.lista();
+		this.movimentacoes = this.movimentacaoDao.listaComCategorias();
 		limpaFormularioDoJSF();
 	}
-	
+
 	public void remove() {
 		System.out.println("Removendo a movimentacao");
 		this.movimentacaoDao.remove(movimentacao);
@@ -81,9 +78,9 @@ public class MovimentacoesBean implements Serializable {
 		this.movimentacoes = this.movimentacaoDao.lista();
 		return movimentacoes;
 	}
-	
+
 	public Movimentacao getMovimentacao() {
-		if(movimentacao.getData()==null) {
+		if (movimentacao.getData() == null) {
 			movimentacao.setData(Calendar.getInstance());
 		}
 		return movimentacao;
@@ -100,19 +97,19 @@ public class MovimentacoesBean implements Serializable {
 	public void setContaId(Integer contaId) {
 		this.contaId = contaId;
 	}
-	
 
 	public Integer getCategoriaId() {
 		return categoriaId;
 	}
 
-	public List<Categoria> getCategorias1(){
+	public List<Categoria> getCategorias1() {
 		if (this.categorias == null) {
 			System.out.println("Listando as categorias!");
 			this.categorias = this.categoriaDao.lista();
 		}
 		return this.categorias;
 	}
+
 	public void setCategoriaId(Integer categoriaId) {
 		this.categoriaId = categoriaId;
 	}

@@ -3,15 +3,15 @@ package br.com.caelum.financas.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import br.com.caelum.financas.modelo.Categoria;
 
 @Stateless
 public class CategoriaDao {
 	
-	@PersistenceContext
+	@Inject //@PersistenceContext
 	private EntityManager manager;
 
 	public List<Categoria> lista() {
