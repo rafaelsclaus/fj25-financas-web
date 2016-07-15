@@ -4,15 +4,20 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+@Table(uniqueConstraints= {@UniqueConstraint(columnNames={"agencia", "numero"})})
 @Cacheable
 @Entity
 public class Conta implements Serializable {
@@ -25,7 +30,20 @@ public class Conta implements Serializable {
 	private String titular;
 	private String agencia;
 	private String numero;
+	
+	@Column(length=20, nullable=false)
 	private String banco;
+
+	@Version
+	private Integer version;
+	
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
 	@Cache(usage=CacheConcurrencyStrategy.TRANSACTIONAL)
 	@OneToMany(mappedBy="conta")
