@@ -132,6 +132,9 @@ public class MovimentacaoDao {
 		Query query = this.manager.createQuery(jpql);
 		query.setParameter("valor", valor);
 		query.setParameter("tipo", tipoMovimentacao);
+		
+		query.setHint("org.hibernate.cacheable", "true");
+		
 		return query.getResultList();
 	}
 

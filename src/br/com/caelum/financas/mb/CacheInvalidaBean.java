@@ -1,8 +1,11 @@
 package br.com.caelum.financas.mb;
 
-import br.com.caelum.financas.modelo.Conta;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Cache;
+
+import br.com.caelum.financas.modelo.Conta;
 
 @Named
 @RequestScoped
@@ -10,9 +13,11 @@ public class CacheInvalidaBean {
 	
 	private Integer id;
 	private Conta conta;
-	
+	@Inject
+	private Cache cache;
 
 	public void invalidar() {
+		cache.evict(Conta.class, id);
 		System.out.println("Invalidando o cache programaticamente");
 	}
 
