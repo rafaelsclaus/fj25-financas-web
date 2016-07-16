@@ -13,13 +13,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import br.com.caelum.financas.validator.NumeroEAgencia;
+
 @Table(uniqueConstraints= {@UniqueConstraint(columnNames={"agencia", "numero"})})
 @Cacheable
 @Entity
+@NumeroEAgencia
 public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,6 +32,8 @@ public class Conta implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotNull(message="Não pode ser nulo")
+	@Pattern(regexp="[A-Z].*")
 	private String titular;
 	private String agencia;
 	private String numero;
